@@ -1,5 +1,4 @@
-# based on https://raspberrytips.nl/tm1637-4-digit-led-display-raspberry-pi/
-#reworked for micropython
+# https://raspberrytips.nl/tm1637-4-digit-led-display-raspberry-pi/
 
 import sys
 import os
@@ -108,13 +107,22 @@ class TM1637:
 		self.__pdat.value(HIGH)
 		self.__pclk.value(HIGH)
 		self.__pdat=machine.Pin(self.__Datapin,machine.Pin.IN)
+		#IO.output( self.__Clkpin, LOW)
+		#IO.output( self.__Datapin, HIGH)
+		#IO.output( self.__Clkpin, HIGH)
+		#IO.setup(self.__Datapin, INPUT)
 
 		while(self.__pdat.value()):
 			time.sleep(0.001)
 			if( self.__pdat.value()):
 				self.__pdat=machine.Pin(self.__Datapin,machine.Pin.OUT)
+				#IO.setup(self.__Datapin, OUTPUT)
 				self.__pdat.value(LOW)
+				#IO.output( self.__Datapin, LOW)
 				self.__pdat=machine.Pin(self.__Datapin,machine.Pin.IN)
+				#IO.setup(self.__Datapin, INPUT)
+			#endif
+		# endwhile
 		self.__pdat=machine.Pin(self.__Datapin,machine.Pin.OUT)
 	# end writeByte
 
@@ -123,7 +131,10 @@ class TM1637:
 		self.__pdat.value(HIGH)
 		self.__pdat.value(LOW)
 		self.__pclk.value(LOW)
-
+		#IO.output( self.__Clkpin, HIGH) # send start signal to TM1637
+		#IO.output( self.__Datapin, HIGH)
+		#IO.output( self.__Datapin, LOW)
+		#IO.output( self.__Clkpin, LOW)
 	# end start
 
 	def stop(self):
@@ -131,6 +142,10 @@ class TM1637:
 		self.__pdat.value(LOW)
 		self.__pclk.value(HIGH)
 		self.__pdat.value(HIGH)   
+		#IO.output( self.__Clkpin, LOW)
+		#IO.output( self.__Datapin, LOW)
+		#IO.output( self.__Clkpin, HIGH)
+		#IO.output( self.__Datapin, HIGH)
 	# end stop
 
 	def coding(self, data):
@@ -147,8 +162,3 @@ class TM1637:
 	# end coding
 
 # end class TM1637
-
-
-
-
-
