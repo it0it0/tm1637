@@ -4,11 +4,10 @@
 import time
 import tm1637
 
-#init clock 
-#pin 15 is clk
-#pin 13 is data
+#pin 4 is clk (D2)
+#pin 5 is data (D1)
 #brightness is set to 2 (0-7)
-display=tm1637.TM1637(15,13,2)
+display=tm1637.TM1637(4,5,2)
 #clear screen
 display.Clear()
 
@@ -32,5 +31,5 @@ while True:
   display.Show([int(mytime[0]),int(mytime[1]),int(mytime[2]),int(mytime[3])])  
   # show colon every other second
   display.ShowDoublepoint(lt[5]%2)    
-  
+  print("%d:%d:%d"%(lt[3],lt[4],lt[5]))
   time.sleep(1)
